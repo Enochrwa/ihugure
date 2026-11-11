@@ -1,6 +1,6 @@
 <?php
 /*
- * IHUGURE APP - interface language support (Kinyarwanda, English, Francais, Kiswahili)
+ * IHUGURE APP - interface language support (Kinyarwanda, English, Francais, Kiswahili, Luganda)
  *
  * This only translates the words shown around the quiz. It never touches game
  * logic, sessions or the database. The language the QUESTIONS are asked in is
@@ -22,6 +22,7 @@ function i18n_languages(){
 		'en' => ['EN', 'English',     'en'],
 		'fr' => ['FR', 'Français',    'fr'],
 		'sw' => ['SW', 'Kiswahili',   'sw'],
+		'lg' => ['LG', 'Luganda',     'lg'],
 	];
 }
 
@@ -40,11 +41,28 @@ function i18n_current(){
 				'httponly' => true,
 				'samesite' => 'Lax',
 			]);
+			i18n_redirect_to_clean_url();
 		}
 	} else if(isset($_COOKIE[I18N_COOKIE]) && is_string($_COOKIE[I18N_COOKIE]) && isset($all[$_COOKIE[I18N_COOKIE]])){
 		$current = $_COOKIE[I18N_COOKIE];
 	}
 	return $current;
+}
+
+// After a language link (?lang=fr) was used, go to the same address without it: the choice now
+// lives in the cookie, so refresh, back button, bookmarks and form posts all use a clean URL.
+// Runs before any output and before the game logs anything. Only for plain GET requests.
+function i18n_redirect_to_clean_url(){
+	if(PHP_SAPI === 'cli' || headers_sent()) return;
+	if(!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET') return;
+	$uri   = isset($_SERVER['REQUEST_URI']) ? (string)$_SERVER['REQUEST_URI'] : '/';
+	$path  = '/' . ltrim((string)parse_url($uri, PHP_URL_PATH), '/\\');   // keep it a local path
+	$keep = [];
+	foreach(explode('&', (string)parse_url($uri, PHP_URL_QUERY)) as $pair){
+		if($pair !== '' && strpos($pair, 'lang=') !== 0 && $pair !== 'lang') $keep[] = $pair;   // keep the rest exactly as it was
+	}
+	header('Location: ' . $path . ($keep ? '?' . implode('&', $keep) : ''), true, 303);
+	exit;
 }
 
 function i18n_catalogue($code = null){

@@ -60,6 +60,13 @@ function ihugure_toolbar(){
 	return $html;
 }
 
+// Tab / history title: the current step first (tabs cut long titles on the right), then the brand.
+function ihugure_page_title(){
+	$screen = ihugure_screen_number();
+	if($screen >= 1 && $screen <= 7) return t('s' . $screen) . ' (' . $screen . '/7) · IHUGURE APP';
+	return 'IHUGURE APP';
+}
+
 function ihugure_card_footer(){
 	if(ihugure_screen_number() == 8) return '';
 	return '<div class="card-footer"><span class="age-badge">18+</span><span>' . htmlspecialchars(t('age_only')) . '</span></div>';
@@ -71,7 +78,7 @@ function display_header(){
         <!DOCTYPE html>
         <html lang="<?php echo i18n_languages()[i18n_current()][2]; ?>">
         <head>
-            <title>IHUGURE APP</title>
+            <title><?php echo htmlspecialchars(ihugure_page_title()); ?></title>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">

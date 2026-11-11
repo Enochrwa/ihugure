@@ -670,3 +670,59 @@ button:focus-visible {
 @media (max-width: 340px) {
   .lang-switch a { min-width: 2.2rem; padding: .3rem .5rem; }
 }
+
+/* --------------------------------------------------------------------------
+   13. Desktop & tablet (768px and up)
+   A roomier card, and the rules text sits in its own scrollable panel with
+   soft fades, so the title and the Next / Close buttons stay on screen
+   instead of being pushed below a long wall of text. Phones keep the
+   natural page scroll (no scroll-inside-scroll).
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 768px) {
+  .container { max-width: 780px; }
+
+  .card-body { padding: 2.1rem 3rem 2.4rem; }
+
+  .card-body h1 {
+    margin-bottom: 1.15rem;
+    padding-bottom: .9rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card-body p {
+    max-height: clamp(9rem, calc(100vh - 27rem), 24rem);
+    margin-bottom: 1.4rem;
+    padding: .2rem 1rem .2rem 0;
+    font-size: 1.05rem;
+    line-height: 1.85;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #b6c3de transparent;
+    /* "scroll shadows": fades appear only when there is more text above/below */
+    background:
+      linear-gradient(#fff 30%, rgba(255, 255, 255, 0)) top    / 100% 2.2rem no-repeat local,
+      linear-gradient(rgba(255, 255, 255, 0), #fff 70%) bottom / 100% 2.2rem no-repeat local,
+      radial-gradient(farthest-side at 50% 0,    rgba(11, 31, 70, .16), transparent) top    / 100% .7rem no-repeat scroll,
+      radial-gradient(farthest-side at 50% 100%, rgba(11, 31, 70, .16), transparent) bottom / 100% .7rem no-repeat scroll;
+  }
+  .card-body p::-webkit-scrollbar { width: 8px; }
+  .card-body p::-webkit-scrollbar-thumb { background: #b6c3de; border-radius: 8px; }
+
+  .card-body .btn { min-width: 11rem; }
+
+  .steps { padding-left: 3rem; padding-right: 3rem; }
+
+  /* the language pills move up into the dark brand bar (saves a whole row) */
+  body { padding-top: clamp(14px, 4vh, 44px); padding-bottom: clamp(14px, 4vh, 44px); }
+  .card-toolbar {
+    position: absolute;
+    top: 6px;                 /* below the 6px ribbon */
+    right: 1.5rem;
+    height: 4.1rem;           /* same height as the brand bar */
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+  .lang-switch { border-color: rgba(255, 255, 255, .25); box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .8); }
+}
