@@ -1,0 +1,48 @@
+# Logs and error files
+*.log
+error_log
+logs.txt
+admin/error_log
+services/error_log
+
+# Backups and temporary files
+*.bak
+*.old
+*.tmp
+*.swp
+*~
+node.php
+last.txt
+
+# Runtime / generated config
+mode/maintenance
+token.json
+*.cgi
+*.zip
+client.zip
+
+# Third-party admin tools and bundled assets
+tools/
+admin/tools/
+
+# PHP sessions and cache
+*.sess
+.phpunit.result.cache
+.cache/
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.sublime-*
+
+# Environment and local config
+.env
+.env.local
+*.local.php
+config.local.php
+
+# Dependencies (if using composer)
+/vendor/
+/composer.lock
