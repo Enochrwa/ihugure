@@ -2,6 +2,7 @@
 
 	define('LEVEL', 3);
 	define('TIMEOUT', 12);
+require_once 'services/i18n.php';
 require_once 'services/db.php';
 require_once 'services/momo.php';
 
@@ -270,6 +271,7 @@ function init_withdraw() {
 }
 
 function __($string, ...$params){
+	$string = i18n_translate($string);
 	$data = $params;
 	array_push($data, $string);
 	return call_user_func_array('sprintf', $data);

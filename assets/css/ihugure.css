@@ -500,3 +500,173 @@ button:focus-visible {
     }
   }
 }
+
+/* ==========================================================================
+   9. Language switcher
+   Printed by ihugure_toolbar() in services/ui.php, just under the brand bar.
+   ========================================================================== */
+
+.card-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: .55rem clamp(1rem, 4.5vw, 2.25rem);
+  background: var(--tint);
+  border-bottom: 1px solid var(--line);
+}
+
+.lang-switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 6px 14px -10px rgba(11, 31, 70, .5);
+}
+
+.lang-switch a {
+  min-width: 2.6rem;
+  padding: .32rem .7rem;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .1em;
+  text-align: center;
+  text-decoration: none;
+  color: var(--body);
+  transition: background-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+/* beats the generic ".card-body a" look - the switcher sits outside the body, but keep it explicit */
+.lang-switch a:hover {
+  color: var(--navy-900);
+  background: rgba(250, 210, 1, .35);
+  text-decoration: none;
+}
+
+.lang-switch a.active,
+.lang-switch a.active:hover {
+  color: var(--sun);
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-800));
+  box-shadow: 0 6px 12px -6px rgba(5, 15, 32, .8);
+}
+
+/* --------------------------------------------------------------------------
+   10. Progress ("Step 3 of 7")
+   -------------------------------------------------------------------------- */
+
+.steps {
+  padding: 1.1rem clamp(1.25rem, 4.5vw, 2.25rem) 0;
+}
+
+.steps-track {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps-track li {
+  flex: 1 1 0;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color .3s ease, box-shadow .3s ease;
+}
+
+.steps-track li.done {
+  background: linear-gradient(90deg, var(--leaf-bright), #35c77c);
+}
+
+.steps-track li.current {
+  background: linear-gradient(90deg, var(--sun), #ffe45c);
+  box-shadow: 0 0 0 3px rgba(250, 210, 1, .28), 0 4px 10px -2px rgba(230, 184, 0, .8);
+}
+
+.steps-label {
+  margin: .6rem 0 0;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #5b6b8c;
+}
+.steps-label strong { color: var(--ink); font-weight: 800; }
+
+/* --------------------------------------------------------------------------
+   11. Card footer (18+ reminder)
+   -------------------------------------------------------------------------- */
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  padding: .8rem 1.25rem;
+  font-size: .78rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #5b6b8c;
+  background: var(--tint);
+  border-top: 1px solid var(--line);
+}
+
+.age-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 .35rem;
+  border-radius: 999px;
+  border: 2px solid var(--danger);
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  color: #c2272d;
+  background: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   12. Layout refinements
+   -------------------------------------------------------------------------- */
+
+/* The rules text has line breaks and "- " bullets in it: show them as written. */
+.card-body p { white-space: pre-line; }
+/* an empty paragraph (screens that only show a title) should take no room */
+.card-body p:empty { display: none; }
+/* ...and drop the stray <br/> the text ends with, so there is no big gap before the buttons */
+.card-body p > br:last-child { display: none; }
+
+/* French and Kiswahili run longer than Kinyarwanda: let words wrap instead of overflowing */
+.card-body h1,
+.card-body form,
+.card-body p,
+.card-body .form-group {
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+
+/* titles sit a touch smaller when they are long uppercase sentences */
+.card-body h1 { text-wrap: balance; }
+
+/* the two action buttons share the row evenly on phones */
+@media (max-width: 480px) {
+  .card-body .btn-primary,
+  .card-body .btn-danger {
+    width: calc(50% - 6px);
+    padding-left: .6rem;
+    padding-right: .6rem;
+  }
+  .card-toolbar { justify-content: center; }
+  .steps-label { text-align: center; }
+  .card-footer { font-size: .72rem; }
+}
+
+@media (max-width: 340px) {
+  .lang-switch a { min-width: 2.2rem; padding: .3rem .5rem; }
+}

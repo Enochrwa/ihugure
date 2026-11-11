@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/i18n.php';
+
 function ussd_encode($data){
 	$result = "";
 	if(!isset($_SESSION['ussd'])){
@@ -36,10 +38,38 @@ function get_next(){
 	return true;
 }
 
+// ---- Interface helpers (display only - they read the session, never change it) ----
+
+function ihugure_screen_number(){
+	return (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['currentscreen'])) ? (int)$_SESSION['currentscreen'] : 0;
+}
+
+// Language switcher + "step x of 7" progress. Hidden while a question is being timed.
+function ihugure_toolbar(){
+	$screen = ihugure_screen_number();
+	if($screen == 8) return '';
+	$html = '<div class="card-toolbar">' . i18n_switcher() . '</div>';
+	if($screen >= 1 && $screen <= 7){
+		$html .= '<div class="steps" role="group" aria-label="' . htmlspecialchars(t('steps_label')) . '"><ol class="steps-track">';
+		for($i = 1; $i <= 7; $i++){
+			$class = $i < $screen ? 'done' : ($i == $screen ? 'current' : '');
+			$html .= '<li' . ($class ? ' class="' . $class . '"' : '') . ($i == $screen ? ' aria-current="step"' : '') . '><span class="sr-only">' . htmlspecialchars(t('s' . $i)) . '</span></li>';
+		}
+		$html .= '</ol><p class="steps-label">' . htmlspecialchars(t('step')) . ' ' . $screen . ' ' . htmlspecialchars(t('of')) . ' 7 &middot; <strong>' . htmlspecialchars(t('s' . $screen)) . '</strong></p></div>';
+	}
+	return $html;
+}
+
+function ihugure_card_footer(){
+	if(ihugure_screen_number() == 8) return '';
+	return '<div class="card-footer"><span class="age-badge">18+</span><span>' . htmlspecialchars(t('age_only')) . '</span></div>';
+}
+
 function display_header(){
 	if(!defined('USSD')){
 		?>
-        <html>
+        <!DOCTYPE html>
+        <html lang="<?php echo i18n_languages()[i18n_current()][2]; ?>">
         <head>
             <title>IHUGURE APP</title>
             <meta charset="utf-8">
@@ -51,6 +81,7 @@ function display_header(){
         <div class="container">
         <div class="card">
         <div class="card-header">IHUGURE APP</div>
+        <?php echo ihugure_toolbar(); ?>
         <div class="card-body">
 		<?php
 	}
@@ -61,6 +92,7 @@ function display_footer(){
 	if(!defined('USSD')){
 		?>
 		</div>
+        <?php echo ihugure_card_footer(); ?>
         </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -99,7 +131,7 @@ function display_footer(){
             
              document.addEventListener('visibilitychange', () => {
       if (document.hidden && noquit) {
-        document.querySelector('.card-body').innerHTML = "<h1>Niwemerewe gusohoka uri gukina <a href='?reflesh'>Gerageza Na None</a></h1>";
+        document.querySelector('.card-body').innerHTML = "<h1>" + <?php echo json_encode(__('Niwemerewe gusohoka uri gukina'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?> + " <a href='?reflesh'>" + <?php echo json_encode(__('Gerageza Na None'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?> + "</a></h1>";
           fetch('log.php?event=3');
       }
     });
@@ -187,8 +219,8 @@ function display_choice_form($title, $choises){
             </div>
 		<?php $keyboard++;
 	}?>
-	<button class="btn btn-primary">IBIKURIKIRA</button>
-	<button class="btn btn-danger float-right" name="cancel">FUNGA</button>
+	<button class="btn btn-primary"><?php echo __('IBIKURIKIRA'); ?></button>
+	<button class="btn btn-danger float-right" name="cancel"><?php echo __('FUNGA'); ?></button>
 	<button class="btn btn-danger float-right" style="display:none;" name="timeout">FUNGA</button>
 	</form>
 	<?php
@@ -209,8 +241,8 @@ function display_input_form($title){
         <div class="form-group">
 	<input class="form-control" name='choise' />
         </div>
-	<button class="btn btn-primary">IBIKURIKIRA</button>
-	<button class="btn btn-danger float-right" name="cancel">FUNGA</button>
+	<button class="btn btn-primary"><?php echo __('IBIKURIKIRA'); ?></button>
+	<button class="btn btn-danger float-right" name="cancel"><?php echo __('FUNGA'); ?></button>
 	</form>
 	<?php
 	} else {
@@ -235,12 +267,10 @@ function display_text($title, $data='', ...$rest){
 	<form method='POST'>
 		<input type='hidden' name='token' value='<?php echo create_token();?>' />
 		<h1><?php echo $title;?> </h1>
-		<p>
-		<?php echo $data; ?>
-		</p>
+		<p><?php echo $data; ?></p>
 		<?php foreach($rest as $val) echo "<p>$val</p>"; ?>
-		<button class="btn btn-primary" name="submit">IBIKURIKIRA</button>
-	<button class="btn btn-danger float-right" name="cancel">FUNGA</button>
+		<button class="btn btn-primary" name="submit"><?php echo __('IBIKURIKIRA'); ?></button>
+	<button class="btn btn-danger float-right" name="cancel"><?php echo __('FUNGA'); ?></button>
 	</form>
 	<?php
 	} else {
