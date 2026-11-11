@@ -1,0 +1,235 @@
+/* ==========================================================================
+   IHUGURE — admin / disable_user.php
+   --------------------------------------------------------------------------
+   That page ships with no CSS framework and no classes, so this sheet styles
+   the bare elements directly. It is only linked from disable_user.php, which
+   keeps these element selectors from touching the Bootstrap-based pages.
+   ========================================================================== */
+
+:root {
+  --navy-950: #050f20;
+  --navy-900: #071428;
+  --navy-800: #0b1f46;
+  --blue:        #00a1de;
+  --blue-deep:   #0a6fb5;
+  --sun:         #fad201;
+  --leaf-bright: #1faa63;
+  --danger:      #e5484d;
+  --ink:   #0b1b3a;
+  --muted: #5a6a88;
+  --line:  #dfe7f6;
+  --tint:  #f6f9ff;
+  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+::selection { background: var(--sun); color: var(--navy-900); }
+
+body {
+  max-width: 720px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 64px) 16px;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  background:
+    radial-gradient(900px 420px at 0% -10%, rgba(0, 161, 222, .15), transparent 60%),
+    radial-gradient(700px 380px at 100% 0%, rgba(250, 210, 1, .17), transparent 55%),
+    #f3f6fc;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* flag-coloured ribbon pinned to the top edge */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; right: 0; left: 0;
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--blue) 0 38%, var(--sun) 38% 68%, var(--leaf-bright) 68% 100%);
+}
+
+/* --- headings ----------------------------------------------------------- */
+
+h2 {
+  position: relative;
+  margin: 0 0 1.5rem;
+  padding-bottom: .7rem;
+  font-size: clamp(1.6rem, 4vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 72px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--sun));
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin: 0 0 1rem;
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+hr {
+  height: 1px;
+  margin: 2.25rem 0 2rem;
+  border: 0;
+  background: transparent;
+}
+
+/* --- result messages (the page colours them with inline green / red) ---- */
+
+p { margin: 0 0 1rem; color: var(--muted); }
+
+p[style*="color:green"],
+p[style*="color:red"] {
+  padding: .9rem 1.2rem;
+  font-weight: 600;
+  border-radius: 14px;
+  box-shadow: 0 14px 34px -24px rgba(11, 27, 58, .5);
+}
+p[style*="color:green"] {
+  color: #0f5132 !important;
+  background: #e4f7ec;
+  border-left: 5px solid var(--leaf-bright);
+}
+p[style*="color:red"] {
+  color: #842029 !important;
+  background: #fdeaea;
+  border-left: 5px solid var(--danger);
+}
+
+/* --- forms -------------------------------------------------------------- */
+
+form {
+  margin: 0 0 1rem;
+  padding: 1.35rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px -28px rgba(11, 27, 58, .55);
+}
+
+label {
+  display: block;
+  margin-bottom: .45rem;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+input[type="text"] {
+  width: 100%;
+  max-width: 22rem;
+  margin: 0 .5rem .5rem 0;
+  padding: .7rem .95rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid #cbd6ec;
+  border-radius: 12px;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+input[type="text"]:focus {
+  outline: 0;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 .25rem rgba(0, 161, 222, .18);
+}
+
+/* --- buttons ------------------------------------------------------------ */
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .6rem 1.3rem;
+  font: inherit;
+  font-size: .92rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  background: var(--blue-deep);
+  border: 1px solid var(--blue-deep);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease,
+              color .2s ease, border-color .2s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px -12px rgba(11, 27, 58, .6);
+}
+button:active { transform: translateY(0); box-shadow: none; }
+button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+button[name="disable_user"] {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+button[name="disable_user"]:hover { background: #cf3a3f; border-color: #cf3a3f; }
+
+button[name="enable_user"] {
+  padding: .4rem 1rem;
+  font-size: .85rem;
+  color: #127a45;
+  background: transparent;
+  border-color: rgba(31, 170, 99, .55);
+}
+button[name="enable_user"]:hover {
+  color: #fff;
+  background: var(--leaf-bright);
+  border-color: var(--leaf-bright);
+}
+
+/* --- disabled-users table ----------------------------------------------- */
+
+table {
+  width: 100%;
+  border: 0;
+  border-collapse: collapse;
+}
+th, td {
+  padding: .8rem .5rem;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+th {
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 2px solid var(--sun);
+}
+td { font-weight: 600; font-variant-numeric: tabular-nums; }
+td:last-child { width: 1%; text-align: right; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+}

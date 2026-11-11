@@ -1,0 +1,139 @@
+/* ==========================================================================
+   IHUGURE — maintenance page
+   --------------------------------------------------------------------------
+   index.maintance.php has always linked "style.css" (which didn't exist) and
+   then carries its own <style> block *after* that link. Rules here therefore
+   use an `html body` prefix so they win over the inline block without
+   touching the page or needing !important.
+   ========================================================================== */
+
+html body {
+  --blue: #00a1de;
+  --sun:  #fad201;
+  --leaf: #1faa63;
+
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  color: #e8efff;
+  background:
+    radial-gradient(1000px 520px at 10% -10%, rgba(0, 161, 222, .35), transparent 62%),
+    radial-gradient(800px 480px at 105% 100%, rgba(31, 170, 99, .30), transparent 60%),
+    linear-gradient(165deg, #050f20 0%, #0b1f46 60%, #0a2f45 100%);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* two soft glowing orbs drifting behind the card */
+html body::before,
+html body::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+html body::before {
+  width: 42vmax; height: 42vmax;
+  top: -14vmax; left: -12vmax;
+  background: var(--blue);
+  opacity: .35;
+  animation: drift-a 16s ease-in-out infinite alternate;
+}
+html body::after {
+  width: 34vmax; height: 34vmax;
+  right: -10vmax; bottom: -12vmax;
+  background: var(--sun);
+  opacity: .20;
+  animation: drift-b 20s ease-in-out infinite alternate;
+}
+
+/* --- the card ----------------------------------------------------------- */
+
+html body .container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 620px;
+  padding: clamp(30px, 6vw, 56px);
+  text-align: center;
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 28px;
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, .7);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  animation: rise .5s cubic-bezier(.2, .8, .2, 1) backwards;
+}
+
+/* tri-colour ribbon */
+html body .container::before {
+  content: "";
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--blue) 0 38%, var(--sun) 38% 68%, var(--leaf) 68% 100%);
+}
+
+/* "work in progress" ring */
+html body .container .content::before {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 70px;
+  margin: .5rem auto 1.75rem;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, .14);
+  border-top-color: var(--sun);
+  border-right-color: var(--blue);
+  animation: spin 1.15s linear infinite;
+}
+
+/* --- text --------------------------------------------------------------- */
+
+html body .container h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.9rem, 6vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  color: #fff;
+}
+html body .container h1::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 1.1rem auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--blue), var(--sun));
+}
+
+html body .container p {
+  margin: 0;
+  font-size: clamp(1rem, 2.6vw, 1.12rem);
+  line-height: 1.7;
+  color: #c3d0ee;
+}
+
+/* --- motion ------------------------------------------------------------- */
+
+@keyframes spin   { to { transform: rotate(360deg); } }
+@keyframes rise   { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes drift-a { to { transform: translate(6vmax, 5vmax) scale(1.1); } }
+@keyframes drift-b { to { transform: translate(-6vmax, -4vmax) scale(1.15); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html body::before,
+  html body::after,
+  html body .container,
+  html body .container .content::before { animation: none; }
+}

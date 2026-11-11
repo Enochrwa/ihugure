@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enable_user'])) {
 <html>
 <head>
     <title>Disable a User</title>
+    <link href="../assets/css/admin-plain.css" rel="stylesheet">
 </head>
 <body>
     <h2>Disable a User</h2>

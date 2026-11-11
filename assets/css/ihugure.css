@@ -1,0 +1,502 @@
+/* ==========================================================================
+   IHUGURE APP — player interface
+   --------------------------------------------------------------------------
+   Plain CSS layered on top of Bootstrap 4.6.2 (which is loaded first).
+   No markup, JavaScript or game logic is touched: every rule below targets
+   classes / elements that services/ui.php already prints.
+
+   Palette is a nod to the Rwandan flag: sky blue, sun yellow, leaf green,
+   set on a deep night-blue "game show" stage.
+   ========================================================================== */
+
+:root {
+  --navy-950: #050f20;
+  --navy-900: #071428;
+  --navy-800: #0b1f46;
+
+  --blue:       #00a1de;
+  --blue-deep:  #0a6fb5;
+  --sun:        #fad201;
+  --sun-deep:   #e6b800;
+  --leaf:       #20603d;
+  --leaf-bright:#1faa63;
+  --danger:     #e5484d;
+
+  --ink:    #0b1b3a;
+  --body:   #34456a;
+  --line:   #dfe7f6;
+  --tint:   #f6f9ff;
+
+  --radius-lg: 22px;
+  --radius-md: 16px;
+
+  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+
+  --shadow-card:
+    0 40px 70px -28px rgba(2, 10, 30, .75),
+    0 10px 24px -10px rgba(2, 10, 30, .45);
+}
+
+/* --------------------------------------------------------------------------
+   1. Stage
+   -------------------------------------------------------------------------- */
+
+::selection { background: var(--sun); color: var(--navy-900); }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(14px, 4vw, 44px) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #e8efff;
+  background:
+    radial-gradient(1100px 560px at 8% -8%,  rgba(0, 161, 222, .38), transparent 62%),
+    radial-gradient(900px 520px  at 108% 4%, rgba(250, 210, 1, .20), transparent 58%),
+    radial-gradient(900px 640px  at 50% 118%, rgba(31, 170, 99, .30), transparent 62%),
+    linear-gradient(165deg, var(--navy-950) 0%, var(--navy-800) 58%, #0a2f45 100%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* faint dot grid over the stage */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Messages the app writes straight into <body> (e.g. "Unsupported browser") */
+body > h1:not(#countdown),
+body > p {
+  position: relative;
+  z-index: 1;
+  padding: 0 1.5rem;
+  text-align: center;
+  color: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   2. The card
+   -------------------------------------------------------------------------- */
+
+.card {
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  animation: card-rise .35s cubic-bezier(.2, .8, .2, 1) backwards;
+}
+
+/* tri-colour ribbon across the top */
+.card::before {
+  content: "";
+  display: block;
+  flex: 0 0 6px;
+  height: 6px;
+  background: linear-gradient(90deg,
+    var(--blue) 0 38%, var(--sun) 38% 68%, var(--leaf-bright) 68% 100%);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  padding: 1.05rem 1.25rem;
+  border: 0;
+  background: linear-gradient(135deg, var(--navy-900), var(--navy-800));
+  color: #fff;
+  font-size: .95rem;
+  font-weight: 800;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+}
+
+/* a little gold "?" coin before the brand name */
+.card-header::before {
+  content: "?";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, #fff3a0, var(--sun) 55%, var(--sun-deep));
+  color: var(--navy-900);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  box-shadow: 0 0 0 4px rgba(250, 210, 1, .18), 0 4px 14px rgba(250, 210, 1, .45);
+}
+
+.card-body {
+  padding: clamp(1.25rem, 4.5vw, 2.25rem);
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography inside the card
+   -------------------------------------------------------------------------- */
+
+.card-body h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.3rem, 4.6vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.card-body p {
+  margin: 0 0 1.15rem;
+  font-size: 1.02rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--body);
+}
+
+.card-body a {
+  color: var(--blue-deep);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(10, 111, 181, .35);
+  text-underline-offset: 3px;
+  transition: color .2s ease, text-decoration-color .2s ease;
+}
+.card-body a:hover {
+  color: var(--navy-800);
+  text-decoration-color: var(--sun-deep);
+}
+
+/* --------------------------------------------------------------------------
+   4. Forms
+   The question / prompt is a bare text node at the top of the <form>,
+   so the form itself carries the "question" typography.
+   -------------------------------------------------------------------------- */
+
+.card-body form {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+/* contain the floated "FUNGA" button */
+.card-body form::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* the <br> after the prompt only adds an empty line */
+.card-body form > br { display: none; }
+
+.card-body form > .form-group:first-of-type { margin-top: 1.1rem; }
+
+/* text input (phone number screen) */
+.card-body .form-control {
+  height: auto;
+  padding: .95rem 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--ink);
+  background: var(--tint);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-md);
+  transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+}
+.card-body .form-control:focus {
+  background: #fff;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(0, 161, 222, .2);
+  outline: 0;
+}
+
+/* Fallback radio colour for browsers that skip the tile treatment below */
+.card-body input[type="radio"] { accent-color: var(--blue-deep); }
+
+/* --------------------------------------------------------------------------
+   5. Answer tiles
+   Each .form-group that holds a radio becomes one big tappable tile.
+   The real radio is stretched invisibly over the whole tile (so a tap
+   anywhere selects it, and keyboard / screen-reader behaviour is untouched)
+   and a drawn "coin" takes its place visually.
+   Wrapped in @supports so older browsers simply keep the plain layout.
+   -------------------------------------------------------------------------- */
+
+@supports selector(:has(*)) {
+
+  .card-body .form-group:has(> input[type="radio"]) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: .7rem;
+    padding: .95rem 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums; /* keeps "1)" "2)" "3)" the same width so answers line up */
+    line-height: 1.4;
+    color: var(--ink);
+    background: var(--tint);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color .18s ease, background-color .18s ease,
+                box-shadow .18s ease, transform .18s ease;
+    animation: tile-rise .3s ease backwards;
+  }
+
+  .card-body .form-group:has(> input[type="radio"]) > input[type="radio"] {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* the drawn radio "coin" */
+  .card-body .form-group:has(> input[type="radio"])::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #b6c3de;
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+  }
+
+  @media (hover: hover) {
+    .card-body .form-group:has(> input[type="radio"]):hover {
+      background: #fff;
+      border-color: var(--blue);
+      box-shadow: 0 12px 24px -14px rgba(0, 110, 200, .6);
+      transform: translateY(-2px);
+    }
+    .card-body .form-group:has(> input[type="radio"]):hover::before {
+      border-color: var(--blue);
+    }
+  }
+
+  .card-body .form-group:has(> input[type="radio"]):active {
+    transform: scale(.99);
+  }
+
+  .card-body .form-group:has(> input[type="radio"]:checked) {
+    background: linear-gradient(180deg, #fffdea, #fff4b0);
+    border-color: var(--sun);
+    box-shadow: 0 0 0 4px rgba(250, 210, 1, .32), 0 14px 26px -16px rgba(230, 184, 0, .9);
+  }
+
+  .card-body .form-group:has(> input[type="radio"]:checked)::before {
+    border-color: var(--sun-deep);
+    background: radial-gradient(circle at center,
+      var(--navy-900) 0 34%, var(--sun) 38% 100%);
+    box-shadow: 0 0 0 3px rgba(250, 210, 1, .35);
+  }
+
+  .card-body .form-group:has(> input[type="radio"]:focus-visible) {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Buttons
+   IBIKURIKIRA (.btn-primary) = go on  → warm gold, the obvious action
+   FUNGA       (.btn-danger)  = quit   → quiet red outline, hard to hit by accident
+   Every state sets colour + background + border so Bootstrap's blue/red
+   hover & active colours never leak through.
+   -------------------------------------------------------------------------- */
+
+.card-body .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  min-height: 3rem;
+  margin-top: .35rem;
+  padding: .7rem 1.7rem;
+  font-size: .9rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  border-width: 2px;
+  border-radius: 999px;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease,
+              color .2s ease, border-color .2s ease;
+}
+
+/* --- primary ------------------------------------------------------------ */
+.card-body .btn-primary {
+  color: var(--navy-900);
+  background: linear-gradient(180deg, #ffe45c 0%, var(--sun) 55%, #f2c500 100%);
+  border-color: #e0b600;
+  box-shadow: 0 12px 24px -12px rgba(230, 184, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .75);
+}
+.card-body .btn-primary:hover {
+  color: var(--navy-900);
+  background: linear-gradient(180deg, #fff07f 0%, #ffdf2e 55%, #f7ca00 100%);
+  border-color: #e0b600;
+  box-shadow: 0 16px 28px -12px rgba(230, 184, 0, 1), inset 0 1px 0 rgba(255, 255, 255, .85);
+  transform: translateY(-2px);
+}
+.card-body .btn-primary:focus,
+.card-body .btn-primary.focus {
+  color: var(--navy-900);
+  background: linear-gradient(180deg, #ffe45c 0%, var(--sun) 55%, #f2c500 100%);
+  border-color: #e0b600;
+  box-shadow: 0 0 0 4px rgba(250, 210, 1, .5), 0 12px 24px -12px rgba(230, 184, 0, .95);
+  outline: 0;
+}
+.card-body .btn-primary:not(:disabled):not(.disabled):active,
+.card-body .btn-primary:not(:disabled):not(.disabled):active:focus {
+  color: var(--navy-900);
+  background: linear-gradient(180deg, #f2c500, var(--sun-deep));
+  border-color: #cfa400;
+  box-shadow: 0 0 0 4px rgba(250, 210, 1, .4), inset 0 2px 4px rgba(0, 0, 0, .18);
+  transform: translateY(1px);
+}
+
+/* --- danger (quit) ------------------------------------------------------ */
+.card-body .btn-danger {
+  color: #c2272d;
+  background: transparent;
+  border-color: rgba(229, 72, 77, .45);
+  box-shadow: none;
+}
+.card-body .btn-danger:hover {
+  color: #fff;
+  background: var(--danger);
+  border-color: var(--danger);
+  box-shadow: 0 14px 26px -12px rgba(229, 72, 77, .85);
+  transform: translateY(-2px);
+}
+.card-body .btn-danger:focus,
+.card-body .btn-danger.focus {
+  color: #c2272d;
+  background: transparent;
+  border-color: var(--danger);
+  box-shadow: 0 0 0 4px rgba(229, 72, 77, .25);
+  outline: 0;
+}
+.card-body .btn-danger:not(:disabled):not(.disabled):active,
+.card-body .btn-danger:not(:disabled):not(.disabled):active:focus {
+  color: #fff;
+  background: #c9383d;
+  border-color: #c9383d;
+  box-shadow: 0 0 0 4px rgba(229, 72, 77, .25);
+  transform: translateY(1px);
+}
+
+/* --------------------------------------------------------------------------
+   7. Countdown
+   The app prints a bare <h1 id="countdown" style="position:fixed; ...">.
+   Inline styles can only be beaten with !important, so the few properties
+   it sets itself are re-declared here; everything else is ordinary CSS.
+   -------------------------------------------------------------------------- */
+
+#countdown {
+  right: 16px !important;
+  bottom: 16px !important;
+  padding: 0 !important;
+  font-size: clamp(1.9rem, 8vw, 2.6rem) !important;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  margin: 0;
+  border-radius: 50%;
+  font-family: var(--font);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  color: var(--navy-900);
+  background: radial-gradient(circle at 30% 25%, #fff3a0, var(--sun) 55%, var(--sun-deep));
+  box-shadow: 0 0 0 6px rgba(250, 210, 1, .22), 0 16px 34px -8px rgba(0, 0, 0, .65);
+  animation: tick 1s ease-in-out infinite;
+}
+
+/* nothing to show until the first tick */
+#countdown:empty { display: none; }
+
+/* --------------------------------------------------------------------------
+   8. Keyboard focus, motion, small screens
+   -------------------------------------------------------------------------- */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(16px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes tile-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes tick {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.07); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .card-header { letter-spacing: .22em; font-size: .85rem; }
+  .card-body .btn {
+    padding: .65rem 1.15rem;
+    font-size: .8rem;
+    letter-spacing: .05em;
+  }
+  #countdown { width: 4.4rem; height: 4.4rem; right: 12px !important; bottom: 12px !important; }
+}
+
+/* give long answers more room on narrow phones */
+@media (max-width: 420px) {
+  @supports selector(:has(*)) {
+    .card-body .form-group:has(> input[type="radio"]) {
+      gap: .65rem;
+      padding: .85rem .9rem;
+    }
+  }
+}
