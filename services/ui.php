@@ -67,6 +67,42 @@ function ihugure_page_title(){
 	return 'IHUGURE APP';
 }
 
+// ---- Designed rules screen (screen 2): the facts from the rules text as tiles + steps ----
+// Numbers come from the game's own constants (LEVEL, TIMEOUT). The reward factor must match the
+// "200%" written in the rules text.
+function ihugure_rules_summary(){
+	$q = defined('LEVEL') ? LEVEL : 3;
+	$s = defined('TIMEOUT') ? TIMEOUT : 12;
+	$reward = 200;
+	$e = function($k){ return htmlspecialchars(t($k)); };
+	$tiles = [
+		['blue',   (string)$q,                 'rl_q'],
+		['sun',    $s . '<small>s</small>',    'rl_t'],
+		['leaf',   $reward . '<small>%</small>', 'rl_p'],
+		['danger', '18<small>+</small>',       'rl_a'],
+	];
+	$h = '<div class="rules"><ul class="facts">';
+	foreach($tiles as $tile) $h .= '<li class="fact fact-' . $tile[0] . '"><b>' . $tile[1] . '</b><span>' . $e($tile[2]) . '</span></li>';
+	$h .= '</ul><div class="rules-grid"><section class="how"><h2 class="rules-h">' . $e('rl_how') . '</h2><ol class="how-list">'
+		. '<li><span class="how-t">' . $e('rl_s1') . '</span><span class="how-d">' . $e('rl_s1d') . '</span></li>'
+		. '<li><span class="how-t">' . htmlspecialchars(sprintf(t('rl_s2'), $q)) . '</span><span class="how-d">' . htmlspecialchars(sprintf(t('rl_s2d'), $s)) . '</span></li>'
+		. '<li><span class="how-t">' . $e('rl_s3') . '</span><span class="how-d">' . htmlspecialchars(sprintf(t('rl_s3d'), $reward)) . '</span></li>'
+		. '</ol></section><aside class="rules-side"><div class="rules-note"><span class="how-t">' . $e('rl_month') . '</span><span class="how-d">' . $e('rl_monthd') . '</span></div>'
+		. '<div class="rules-contact"><span class="rules-contact-l">' . $e('rl_contact') . '</span>'
+		. '<a class="pill pill-ig" href="https://www.instagram.com/ihugure_app" target="_blank" rel="noopener">Instagram</a>'
+		. '<a class="pill pill-mail" href="mailto:mukaveclimited@gmail.com">Email</a></div></aside></div></div>';
+	return $h;
+}
+
+// On the rules screen the full original text is kept, folded under the summary.
+function ihugure_rules_open(){
+	if(ihugure_screen_number() != 2) return '';
+	return ihugure_rules_summary() . '<details class="rules-full"><summary>' . htmlspecialchars(t('rl_full')) . '</summary>';
+}
+function ihugure_rules_close(){
+	return ihugure_screen_number() == 2 ? '</details>' : '';
+}
+
 function ihugure_card_footer(){
 	if(ihugure_screen_number() == 8) return '';
 	return '<div class="card-footer"><span class="age-badge">18+</span><span>' . htmlspecialchars(t('age_only')) . '</span></div>';
@@ -274,10 +310,14 @@ function display_text($title, $data='', ...$rest){
 	<form method='POST'>
 		<input type='hidden' name='token' value='<?php echo create_token();?>' />
 		<h1><?php echo $title;?> </h1>
+		<?php echo ihugure_rules_open(); ?>
 		<p><?php echo $data; ?></p>
+		<?php echo ihugure_rules_close(); ?>
 		<?php foreach($rest as $val) echo "<p>$val</p>"; ?>
+		<div class="actions<?php echo ihugure_screen_number() == 2 ? ' actions-sticky' : ''; ?>">
 		<button class="btn btn-primary" name="submit"><?php echo __('IBIKURIKIRA'); ?></button>
 	<button class="btn btn-danger float-right" name="cancel"><?php echo __('FUNGA'); ?></button>
+		</div>
 	</form>
 	<?php
 	} else {
