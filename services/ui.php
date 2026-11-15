@@ -103,6 +103,14 @@ function ihugure_rules_close(){
 	return ihugure_screen_number() == 2 ? '</details>' : '';
 }
 
+// Title of a choice / input form, as a real heading (screen 1 has no title of its own: say what the choice is for).
+function ihugure_form_title($title){
+	$screen = ihugure_screen_number();
+	if(trim((string)$title) === '' && $screen == 1) $title = t('quiz_lang_title');
+	if(trim((string)$title) === '') return '';
+	return '<h1 class="form-title' . ($screen == 8 ? ' is-question' : '') . '">' . $title . '</h1>';
+}
+
 function ihugure_card_footer(){
 	if(ihugure_screen_number() == 8) return '';
 	return '<div class="card-footer"><span class="age-badge">18+</span><span>' . htmlspecialchars(t('age_only')) . '</span></div>';
@@ -201,7 +209,7 @@ function display_footer(){
 
   if (!isTrustedBrowser()) {
     // You can show a message or redirect
-    document.body.innerHTML = "<h1>Unsupported browser</h1><p>Please use a modern trusted browser like Chrome, Firefox, Edge, Safari, or Opera.</p>";
+    document.body.innerHTML = "<h1>" + <?php echo json_encode(__('Unsupported browser'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?> + "</h1><p>" + <?php echo json_encode(__('Please use a modern trusted browser like Chrome, Firefox, Edge, Safari, or Opera.'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?> + "</p>";
     throw new Error("Blocked unsupported browser");
     // Or: window.location.href = "https://example.com/unsupported-browser";
   }
@@ -221,9 +229,9 @@ function display_footer(){
         check = false;
         //console.log(element);
         if (check || isDebuggerActive()) {
-          document.body.innerHTML = "<h1>You are not allowed to use debug</h1>";
+          document.body.innerHTML = "<h1>" + <?php echo json_encode(__('You are not allowed to use debug'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?> + "</h1>";
           fetch('log.php?event=1');
-          alert('You are not allowed to open debug. Close is and click ok');
+          alert(<?php echo json_encode(__('You are not allowed to open debug. Close it and click OK.'), JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT); ?>);
           window.location.href = '/';
         }
       }, 1000);
@@ -252,7 +260,7 @@ function display_choice_form($title, $choises){
 	?>
 	<form method='POST'>
 	<input type='hidden' name='token' value='<?php echo create_token(); ?>' />
-	<?php echo $title; ?><br/>
+	<?php echo ihugure_form_title($title); ?>
 	<?php $keyboard = 1;
 	foreach ($choises as $key=>$val){
 		?>
@@ -280,9 +288,9 @@ function display_input_form($title){
 	?>
 	<form method='POST'>
 	<input type='hidden' name='token' value='' />
-	<?php echo $title; ?><br/>
+	<?php echo ihugure_form_title($title); ?>
         <div class="form-group">
-	<input class="form-control" name='choise' />
+	<input class="form-control" name='choise' type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="07XXXXXXXX" />
         </div>
 	<button class="btn btn-primary"><?php echo __('IBIKURIKIRA'); ?></button>
 	<button class="btn btn-danger float-right" name="cancel"><?php echo __('FUNGA'); ?></button>

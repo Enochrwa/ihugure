@@ -81,9 +81,9 @@ function i18n_key($text){
 	return function_exists('mb_strtolower') ? mb_strtolower($key, 'UTF-8') : strtolower($key);
 }
 
-// Translate a piece of original (Kinyarwanda) text. Unknown text is returned unchanged.
+// Translate a piece of original text. Unknown text is returned unchanged. (Kinyarwanda has a small
+// catalogue too: a few English-only messages and one corrected phrase.)
 function i18n_translate($text){
-	if(i18n_current() === I18N_DEFAULT) return $text;
 	$cat = i18n_catalogue();
 	$key = i18n_key($text);
 	if(!isset($cat['msgs'][$key])) return $text;
