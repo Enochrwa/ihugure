@@ -24,8 +24,14 @@ Weewandiisa mu kibinja ky’oyagala n’obuuzibwa ebibuuzo byakyo. Ofuna empeera
 			'TETUFUNYE NSIMBI ZO',
 		'emeze kwishyura muri telephone yawe' =>
 			'KAKASA OKUSASULA KU SSIMU YO',
+		'nta bibazo bishya bihari' =>
+			'TEWALI BIBUUZO BIPYA',
+		'mutwihanganire, nta bibazo bishya bihari kuri mwe muri iki cyiciro no muri uru rurimi ubu. mwongere mugerageze nyuma, cyangwa muhitemo ikindi cyiciro cyangwa ururimi.' =>
+			'Tusonyiwe, tetulina bibuuzo bipya bye tuyinza okukubuuza mu kibinja n’olulimi luno kati. Ddamu ogezeeko oluvannyuma, oba olonde ekibinja oba olulimi olulala.',
 		'uriteguye gutangira ibanzwa' =>
 			'OLI MWETEGEFU OKUTANDIKA EBIBUUZO?',
+		'mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. mwongere mugerageze nyuma.' =>
+			'Tusonyiwe, tetulina bibuuzo bipya bindi bye tuyinza okukubuuza kati. Ddamu ogezeeko oluvannyuma.',
 		'kubikuza byagenze neza, murakoze' =>
 			'OKUGGYAWO KUGENDEDDE BULUNGI, WEEBALE',
 		'murifuza kubikuza' =>

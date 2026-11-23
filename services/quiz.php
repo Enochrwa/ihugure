@@ -127,6 +127,20 @@ function update_level(){
 	}}
 }
 
+// Called when next_question() has nothing to ask. Writes a NO_QUESTION line to game_logs that says why
+// ("in_language_and_category" = 0 means the questions are missing; > 0 means this player has used them all).
+function no_question_available($reason, $extra=[]){
+	$total = query_row('SELECT COUNT(*) total FROM inquirycategory WHERE categoryid = ? AND inquiryid IN (SELECT inquiryid FROM question WHERE languageid = ?)', [$_SESSION['categoryid'], $_SESSION['languageid']]);
+	game_log('NO_QUESTION', array_merge([
+		'reason'=>$reason,
+		'categoryid'=>$_SESSION['categoryid'],
+		'languageid'=>$_SESSION['languageid'],
+		'userid'=>$_SESSION['userid'],
+		'in_language_and_category'=>$total ? (int)$total['total'] : 0,
+	], $extra));
+	return false;
+}
+
 function next_question(){
 	$question = query_row('SELECT id FROM game_response WHERE gameid = ? AND state = "PENDING" LIMIT 1', [$_SESSION['gameid']]);
 	if($question){
@@ -135,9 +149,14 @@ function next_question(){
 	}
 	$inquiry = query_row('SELECT id FROM inquiry WHERE id in (SELECT inquiryid FROM inquirycategory WHERE categoryid = ?) AND id IN (SELECT inquiryid FROM question WHERE languageid = ?) AND id NOT IN (SELECT inquiryid FROM game_response WHERE userid = ? AND inquiryid IS NOT NULL) ORDER BY RAND() LIMIT 1', [$_SESSION['categoryid'], $_SESSION['languageid'], $_SESSION['userid']]);
 	
+	// No question can be asked (none in this language/category, or this player has already seen them all).
+	// Do not carry on: the rest of this function needs a question, and the insert below would crash.
+	if(!$inquiry) return no_question_available('NO_INQUIRY_AVAILABLE');
+	
 	$question = query_row('SELECT id, title FROM question WHERE languageid = ? AND inquiryid = ? ORDER BY RAND() LIMIT 1', [$_SESSION['languageid'], $inquiry['id']]);
 	
 	$answers = query_rows('SELECT id, title FROM answer WHERE languageid = ? AND inquiryid = ? ORDER BY RAND()', [$_SESSION['languageid'], $inquiry['id']]);
+	if(!$question || !$answers) return no_question_available('INCOMPLETE_QUESTION', ['inquiryid'=>$inquiry['id']]);
 	
 	query_insert('game_response', [
 			'question_time'=>time(),

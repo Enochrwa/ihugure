@@ -25,8 +25,14 @@ Vous vous inscrivez dans la catégorie de votre choix et les questions portent s
 			'NOUS N’AVONS PAS REÇU VOTRE PAIEMENT',
 		'emeze kwishyura muri telephone yawe' =>
 			'CONFIRMEZ LE PAIEMENT SUR VOTRE TÉLÉPHONE',
+		'nta bibazo bishya bihari' =>
+			'AUCUNE NOUVELLE QUESTION DISPONIBLE',
+		'mutwihanganire, nta bibazo bishya bihari kuri mwe muri iki cyiciro no muri uru rurimi ubu. mwongere mugerageze nyuma, cyangwa muhitemo ikindi cyiciro cyangwa ururimi.' =>
+			'Désolé, il n’y a pas de nouvelles questions pour vous dans cette catégorie et cette langue pour le moment. Veuillez réessayer plus tard, ou choisir une autre catégorie ou une autre langue.',
 		'uriteguye gutangira ibanzwa' =>
 			'ÊTES-VOUS PRÊT À COMMENCER LES QUESTIONS ?',
+		'mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. mwongere mugerageze nyuma.' =>
+			'Désolé, il n’y a plus de nouvelles questions pour vous pour le moment. Veuillez réessayer plus tard.',
 		'kubikuza byagenze neza, murakoze' =>
 			'RETRAIT RÉUSSI, MERCI',
 		'murifuza kubikuza' =>

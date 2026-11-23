@@ -24,8 +24,14 @@ You register for the category you want and you are asked questions from it. You 
 			'WE HAVE NOT RECEIVED YOUR PAYMENT',
 		'emeze kwishyura muri telephone yawe' =>
 			'CONFIRM THE PAYMENT ON YOUR PHONE',
+		'nta bibazo bishya bihari' =>
+			'NO NEW QUESTIONS AVAILABLE',
+		'mutwihanganire, nta bibazo bishya bihari kuri mwe muri iki cyiciro no muri uru rurimi ubu. mwongere mugerageze nyuma, cyangwa muhitemo ikindi cyiciro cyangwa ururimi.' =>
+			'Sorry, there are no new questions for you in this category and language right now. Please try again later, or choose another category or language.',
 		'uriteguye gutangira ibanzwa' =>
 			'ARE YOU READY TO START THE QUESTIONS?',
+		'mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. mwongere mugerageze nyuma.' =>
+			'Sorry, there are no more new questions for you right now. Please try again later.',
 		'kubikuza byagenze neza, murakoze' =>
 			'WITHDRAWAL SUCCESSFUL, THANK YOU',
 		'murifuza kubikuza' =>

@@ -24,8 +24,14 @@ Unajisajili katika kategoria unayotaka na kuulizwa maswali yake. Unazawadiwa una
 			'HATUJAPOKEA MALIPO YAKO',
 		'emeze kwishyura muri telephone yawe' =>
 			'THIBITISHA MALIPO KWENYE SIMU YAKO',
+		'nta bibazo bishya bihari' =>
+			'HAKUNA MASWALI MAPYA',
+		'mutwihanganire, nta bibazo bishya bihari kuri mwe muri iki cyiciro no muri uru rurimi ubu. mwongere mugerageze nyuma, cyangwa muhitemo ikindi cyiciro cyangwa ururimi.' =>
+			'Samahani, hakuna maswali mapya kwa ajili yako katika kategoria na lugha hii kwa sasa. Tafadhali jaribu tena baadaye, au chagua kategoria au lugha nyingine.',
 		'uriteguye gutangira ibanzwa' =>
 			'UKO TAYARI KUANZA MASWALI?',
+		'mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. mwongere mugerageze nyuma.' =>
+			'Samahani, hakuna maswali mapya zaidi kwa ajili yako kwa sasa. Tafadhali jaribu tena baadaye.',
 		'kubikuza byagenze neza, murakoze' =>
 			'UMEFANIKIWA KUTOA PESA, ASANTE',
 		'murifuza kubikuza' =>

@@ -94,7 +94,7 @@ while($i < 5){
 		display_text(__('EMEZE KWISHYURA MURI TELEPHONE YAWE'));
 	} else if ($screen==7){
 		if(get_next()){
-			next_question();
+			if(next_question()===false) display_text(__('NTA BIBAZO BISHYA BIHARI'), __('Mutwihanganire, nta bibazo bishya bihari kuri mwe muri iki cyiciro no muri uru rurimi ubu. Mwongere mugerageze nyuma, cyangwa muhitemo ikindi cyiciro cyangwa ururimi.'));
 			set_screen(8);
 			continue;
 		}
@@ -113,7 +113,10 @@ while($i < 5){
 				set_screen(9);
 				continue;
 			}
-			next_question();
+			if(next_question()===false){
+				set_screen(7);
+				display_text(__('NTA BIBAZO BISHYA BIHARI'), __('Mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. Mwongere mugerageze nyuma.'));
+			}
 		}
 		
 		if(game_ended()){
@@ -168,7 +171,10 @@ while($i < 5){
 				display_text(__('KUBIKUZA BYAGENZE NEZA, MURAKOZE'));
 			} else {
 				set_screen(7);
-				next_question();
+				if(next_question()===false){
+					set_screen(9);
+					display_text(__('NTA BIBAZO BISHYA BIHARI'), __('Mutwihanganire, nta bibazo bishya bindi bihari kuri mwe ubu. Mwongere mugerageze nyuma.'));
+				}
 				continue;
 			}
 		}
